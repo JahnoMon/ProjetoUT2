@@ -1,3 +1,5 @@
+package Application;
+
 /*
 == TRANSFORMAÇÕES ==
 
@@ -11,6 +13,7 @@
     filtrar todos os games compatíveis com o sistema operacional linux. (campo Linux).
 
     Gerar um arquivo chamado “games_linux.csv”
+    
     3- Use o arquivo gerado na primeira transformação (games_formated_release_data.csv) para 
     filtrar todos os games que tem suporte a língua portuguesa. (campo: Supported languages).
 
@@ -50,16 +53,17 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-// import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-public class App {
+public class fixex {
 
     public static void main(String[] args) {
-        String arquivoEntrada = "C:\\Users\\johna\\OneDrive\\Documentos\\VSprojetos\\Avulços\\ProjetoUT2\\src\\games.csv";        ;
-        String arquivoSaida = "C:\\Users\\johna\\OneDrive\\Documentos\\VSprojetos\\Avulços\\ProjetoUT2\\src\\games_formated_release_data.csv";
+        String arquivoEntrada = "ProjetoUT2\\bin\\Docs\\games_test.csv";
+        String arquivoSaida = "ProjetoUT2\\bin\\Docs\\games_formated_release_data.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(arquivoEntrada));
-             BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
 
             String linha;
             boolean isFirstLine = true;
@@ -67,16 +71,35 @@ public class App {
             while ((linha = br.readLine()) != null) {
                 String[] campos = linha.split(",");
 
+                // pula a primeira limha
                 if (isFirstLine) {
                     bw.write(String.join(",", campos));
                     isFirstLine = false;
-                } else {
-                    String[] campo = new String[linha.length()];
-                    System.arraycopy(campos, 0, campo, 0, 3);
-                    campos[2] = retornaData(campos[2], campos[3]);
-                    bw.write(String.join(",", campos));
                 }
-                bw.newLine();
+                // else {
+                // String[] campo = new String[linha.length()];
+                // System.arraycopy(campos, 0, campo, 0, 3);
+                // campos[2] = retornaData(campos[2]);
+                // bw.write(String.join(",", campos));
+                // }
+                // bw.newLine();
+
+                if (campos.length > 7) {
+                    campos[2] = campos[2] + campos[3];
+                    campos[2] = retornaData(campos[2]);
+                    List<String> novaLinha = new ArrayList<>();
+                    for (int i = 0; i < campos.length; i++) {
+                        if (i != 3 && i != 9) {
+                            novaLinha.add(campos[i]);
+                        }
+                    }
+                    bw.write(String.join(",", novaLinha));
+                    bw.newLine();
+                } else {
+                    bw.write(linha);
+                    bw.newLine();
+                }
+                // System.out.println(campos[2]);
             }
 
             System.out.println("Conversão concluída com sucesso");
@@ -87,39 +110,38 @@ public class App {
 
     }
 
-    public static String retornaData(String diaMes, String ano){
-        String[] diaMes_alt = diaMes.split(" ");
-        String data;
+    public static String retornaData(String data) {
+        String[] data_alt = data.split(" ");
+        // data = data_alt[0];
+        // data_alt[0] -> oct 21
 
-        data = "\"" + diaMes_alt[1];
-    
-        if(diaMes_alt[0].replace("\"","").equals("Jan")){
-            data = data + "/01/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Feb")){
-            data = data + "/02/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Mar")){
-            data = data + "/03/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Apr")){
-            data = data + "/04/";
-        }else if(diaMes_alt[0].replace("\"","").equals("May")){
-            data = data + "/05/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Jun")){
-            data = data + "/06/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Jul")){
-            data = data + "/07/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Aug")){
-            data = data + "/08/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Sep")){
-            data = data + "/09/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Oct")){
-            data = data + "/10/";
-        }else if(diaMes_alt[0].replace("\"","").equals("Nov")){
-            data = data + "/11/";
-        }else{
-            data = data + "/12/";
+        if (data_alt[0].equals("\"Jan")) {
+            data = data_alt[1] + "/01/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Feb")) {
+            data = data_alt[1] + "/02/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Mar")) {
+            data = data_alt[1] + "/03/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Apr")) {
+            data = data_alt[1] + "/04/" + data_alt[2];
+        } else if (data_alt[0].equals("\"May")) {
+            data = data_alt[1] + "/05/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Jun")) {
+            data = data_alt[1] + "/06/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Jul")) {
+            data = data_alt[1] + "/07/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Aug")) {
+            data = data_alt[1] + "/08/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Sep")) {
+            data = data_alt[1] + "/09/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Oct")) {
+            data = data_alt[1] + "/10/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Nov")) {
+            data = data_alt[1] + "/11/" + data_alt[2];
+        } else if (data_alt[0].equals("\"Dec")) {
+            data = data_alt[1] + "/12/" + data_alt[2];
         }
 
-        data = data + ano.replace(" ", "");
+        data = "\"" + data;
 
         return data;
     }
