@@ -71,19 +71,11 @@ public class fixex {
             while ((linha = br.readLine()) != null) {
                 String[] campos = linha.split(",");
 
-                // pula a primeira limha
                 if (isFirstLine) {
                     bw.write(String.join(",", campos));
                     isFirstLine = false;
                 }
-                // else {
-                // String[] campo = new String[linha.length()];
-                // System.arraycopy(campos, 0, campo, 0, 3);
-                // campos[2] = retornaData(campos[2]);
-                // bw.write(String.join(",", campos));
-                // }
-                // bw.newLine();
-
+                
                 if (campos.length > 7) {
                     campos[2] = campos[2] + campos[3];
                     campos[2] = retornaData(campos[2]);
@@ -99,7 +91,6 @@ public class fixex {
                     bw.write(linha);
                     bw.newLine();
                 }
-                // System.out.println(campos[2]);
             }
 
             System.out.println("Conversão concluída com sucesso");
@@ -111,10 +102,8 @@ public class fixex {
     }
 
     public static String retornaData(String data) {
-        String[] data_alt = data.split(" ");
-        // data = data_alt[0];
-        // data_alt[0] -> oct 21
-
+        String[] data_alt = data.split(" "); 
+        
         if (data_alt[0].equals("\"Jan")) {
             data = data_alt[1] + "/01/" + data_alt[2];
         } else if (data_alt[0].equals("\"Feb")) {
